@@ -1,157 +1,180 @@
-const { ipcRenderer } = require('electron');
+import ApexCharts from 'apexcharts';
+import { ipcRenderer } from 'electron';
 
-/*
- *  Document   : be_pages_dashboard.js
- *  Author     : pixelcave
- *  Description: Custom JS code used in Dashboard Page
- */
-
-class pageDashboard {
-  /*
-   * Chart.js, for more examples you can check out http://www.chartjs.org/docs
-   *
-   */
-  static initCharts(data) {
-    // Set Global Chart.js configuration
-    Chart.defaults.global.defaultFontColor = '#495057';
-    Chart.defaults.scale.gridLines.color = 'transparent';
-    Chart.defaults.scale.gridLines.zeroLineColor = 'transparent';
-    Chart.defaults.scale.display = false;
-    Chart.defaults.scale.ticks.beginAtZero = true;
-    Chart.defaults.global.elements.line.borderWidth = 0;
-    Chart.defaults.global.elements.point.radius = 0;
-    Chart.defaults.global.elements.point.hoverRadius = 0;
-    Chart.defaults.global.tooltips.cornerRadius = 3;
-    Chart.defaults.global.legend.labels.boxWidth = 12;
-
-    // Get Chart Containers
-    let firstChart = jQuery('.chartjs-first');
-    let secondChart = jQuery('.chartjs-second');
-
-    // Set Chart Variables
-    let chartEarnings,
-      chartEarningsOptions,
-      chartEarningsData,
-      chartSales,
-      chartSalesOptions,
-      chartSalesData;
-
-    // Earnigns Chart Options
-    chartEarningsOptions = {
-      maintainAspectRatio: false,
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              suggestedMax: 3000
-            }
-          }
-        ]
-      },
-      tooltips: {
-        intersect: false,
-        callbacks: {
-          label: function(tooltipItems, data) {
-            return ' $' + tooltipItems.yLabel;
-          }
-        }
-      }
-    };
-
-    // Earnigns Chart Options
-    chartSalesOptions = {
-      maintainAspectRatio: false,
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              suggestedMax: 260
-            }
-          }
-        ]
-      },
-      tooltips: {
-        intersect: false,
-        callbacks: {
-          label: function(tooltipItems, data) {
-            return ' ' + tooltipItems.yLabel + ' Sales';
-          }
-        }
-      }
-    };
-
-    // Earnings Chart Data
-    chartEarningsData = {
-      labels: data.timeArray,
-      datasets: [
-        {
-          label: 'This Year',
-          fill: true,
-          backgroundColor: 'rgba(132, 94, 247, .3)',
-          borderColor: 'transparent',
-          pointBackgroundColor: 'rgba(132, 94, 247, 1)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(132, 94, 247, 1)',
-          data: data.iArray
-        }
-      ]
-    };
-
-    // Sales Chart Data
-    chartSalesData = {
-      labels: data.timeArray,
-      datasets: [
-        {
-          label: 'This Year',
-          fill: true,
-          backgroundColor: 'rgba(34, 184, 207, .3)',
-          borderColor: 'transparent',
-          pointBackgroundColor: 'rgba(34, 184, 207, 1)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(34, 184, 207, 1)',
-          data: data.sArray
-        }
-      ]
-    };
-
-    // Init Earnings Chart
-    if (firstChart.length) {
-      chartEarnings = new Chart(firstChart, {
-        type: 'line',
-        data: chartEarningsData,
-        options: chartEarningsOptions
-      });
-    }
-
-    // Init Sales Chart
-    if (secondChart.length) {
-      chartSales = new Chart(secondChart, {
-        type: 'line',
-        data: chartSalesData,
-        options: chartSalesOptions
-      });
-    }
+class Charts {
+  constructor() {
+    this.firstChart = document.querySelector('#chartjs-first');
+    this.secondChart = document.querySelector('#chartjs-second');
+    this.IHeatMap = document.querySelector('#chartjs-iheatmap');
+    this.SHeatMap = document.querySelector('#chartjs-sheatmap');
   }
 
-  /*
-   * Init functionality
-   *
-   */
-  static init(data) {
-    this.initCharts(data);
+  init(data) {
+    let firstChartOpts = {
+      chart: {
+        height: 350,
+        type: 'line',
+        shadow: {
+          enabled: true,
+          color: '#000',
+          top: 18,
+          left: 7,
+          blur: 10,
+          opacity: 1
+        },
+        toolbar: {
+          show: true
+        }
+      },
+      colors: ['#77B6EA', '#545454'],
+      dataLabels: {
+        enabled: true
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      series: [
+        {
+          name: 'I',
+          data: data.iArray
+        }
+      ],
+      grid: {
+        borderColor: '#e7e7e7',
+        row: {
+          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          opacity: 0.5
+        }
+      },
+      markers: {
+        size: 6
+      },
+      xaxis: {
+        categories: data.timeArray,
+        title: {
+          text: 'time'
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'I'
+        },
+        min: 0
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'right',
+        floating: true
+      }
+    };
+    let secondChartOpts = {
+      chart: {
+        height: 350,
+        type: 'line',
+        shadow: {
+          enabled: true,
+          color: '#000',
+          top: 18,
+          left: 7,
+          blur: 10,
+          opacity: 1
+        },
+        toolbar: {
+          show: true
+        }
+      },
+      colors: ['#77B6EA', '#545454'],
+      dataLabels: {
+        enabled: true
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      series: [
+        {
+          name: 'S',
+          data: data.sArray
+        }
+      ],
+      grid: {
+        borderColor: '#e7e7e7',
+        row: {
+          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          opacity: 0.5
+        }
+      },
+      markers: {
+        size: 6
+      },
+      xaxis: {
+        categories: data.timeArray,
+        title: {
+          text: 'time'
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'S'
+        },
+        min: 0
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'right',
+        floating: true
+      }
+    };
+
+    const IheatMapOpts = {
+      chart: {
+        height: 350,
+        type: 'heatmap'
+      },
+      dataLabels: {
+        enabled: false
+      },
+      colors: ['#DC3023', '#FFB61E'],
+      series: [
+        {
+          name: 'I',
+          data: data.heatMap.IheatMapObj
+        }
+      ]
+    };
+    const SheatMapOpts = {
+      chart: {
+        height: 350,
+        type: 'heatmap'
+      },
+      dataLabels: {
+        enabled: false
+      },
+      colors: ['#FFB61E'],
+      series: [
+        {
+          name: 'S',
+          data: data.heatMap.SheatMapObj
+        }
+      ]
+    };
+
+    const firstChart = new ApexCharts(this.firstChart, firstChartOpts);
+    const secondChart = new ApexCharts(this.secondChart, secondChartOpts);
+    const IHeatMap = new ApexCharts(this.IHeatMap, IheatMapOpts);
+    const SHeatMap = new ApexCharts(this.SHeatMap, SheatMapOpts);
+    firstChart.render();
+    secondChart.render();
+    IHeatMap.render();
+    SHeatMap.render();
   }
 }
 
 ipcRenderer.on('chartData:send', (_event, data) => {
   console.log(data);
   jQuery(() => {
-    pageDashboard.init(data);
+    new Charts().init(data);
   });
 });
-
-//TABLE
 
 class pageTablesDatatables {
   /*

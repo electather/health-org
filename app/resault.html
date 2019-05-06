@@ -58,7 +58,7 @@
                 <!-- Chart.js is initialized in js/pages/be_pages_dashboard.min.js which was auto compiled from _es6/pages/be_pages_dashboard.js) -->
                 <!-- For more info and examples you can check out http://www.chartjs.org/docs/ -->
                 <div class="pt-3" style="height: 360px;">
-                  <canvas class="chartjs-first"></canvas>
+                  <div id="chartjs-first"></div>
                 </div>
               </div>
             </div>
@@ -88,7 +88,65 @@
                 <!-- Chart.js is initialized in js/pages/be_pages_dashboard.min.js which was auto compiled from _es6/pages/be_pages_dashboard.js -->
                 <!-- For more info and examples you can check out http://www.chartjs.org/docs/ -->
                 <div class="pt-3" style="height: 360px;">
-                  <canvas class="chartjs-second"></canvas>
+                  <div id="chartjs-second"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="block block-rounded block-mode-loading-oneui">
+              <div class="block-header">
+                <h3 class="block-title">
+                  نمودار گرمایی تعداد افراد الوده
+                </h3>
+                <div class="block-options">
+                  <button
+                    type="button"
+                    class="btn-block-option"
+                    data-toggle="block-option"
+                    data-action="state_toggle"
+                    data-action-mode="demo"
+                  >
+                    <i class="si si-refresh"></i>
+                  </button>
+                  <button type="button" class="btn-block-option">
+                    <i class="si si-settings"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="block-content p-0 bg-body-light text-center">
+                <div class="pt-3" style="height: 360px;">
+                  <div id="chartjs-iheatmap"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="block block-rounded block-mode-loading-oneui">
+              <div class="block-header">
+                <h3 class="block-title">
+                  نمودار گرمایی تعداد افراد مستعد بیماری
+                </h3>
+                <div class="block-options">
+                  <button
+                    type="button"
+                    class="btn-block-option"
+                    data-toggle="block-option"
+                    data-action="state_toggle"
+                    data-action-mode="demo"
+                  >
+                    <i class="si si-refresh"></i>
+                  </button>
+                  <button type="button" class="btn-block-option">
+                    <i class="si si-settings"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="block-content p-0 bg-body-light text-center">
+                <div class="pt-3" style="height: 360px;">
+                  <div id="chartjs-sheatmap"></div>
                 </div>
               </div>
             </div>
@@ -99,7 +157,7 @@
             <div class="block">
               <div class="block-header">
                 <h3 class="block-title">
-                  جدول داده ها <small>تعداد تخت مورد نیاز بر حسب </small>
+                  جدول داده ها <small>تعداد تخت مورد نیاز بر زمان </small>
                 </h3>
               </div>
               <div class="block-content block-content-full">
@@ -123,7 +181,6 @@
 
     <script src="static/oneui.core.min.js"></script>
     <script src="static/oneui.app.min.js"></script>
-    <script src="static/js/Chart.bundle.min.js"></script>
 
     <script src="app.js"></script>
     <script src="chart.js"></script>

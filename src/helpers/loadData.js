@@ -1,30 +1,79 @@
 const { readFileSync } = require('fs');
 const { join } = require('path');
 const { homedir } = require('os');
-const { map } = require('lodash');
+const { map, chunk } = require('lodash');
 
-export const processData = () => {
-  const jsonContent = JSON.parse(
-    readFileSync(join(homedir(), 'health', 'chart-res', 'outsir.json'))
-  ).slice(0, 20);
+class DataLoader {
+  constructor(dataLength) {
+    this.SIRData = JSON.parse(
+      readFileSync(join(homedir(), 'health', 'chart-res', 'outsir.json'))
+    ).slice(0, dataLength);
 
-  const timeArray = map(jsonContent, 'time');
-  const iArray = map(jsonContent, 'I');
-  const sArray = map(jsonContent, 'S');
+    this.bedData = JSON.parse(
+      readFileSync(join(homedir(), 'health', 'chart-res', 'outbed.json'))
+    ).slice(0, dataLength);
+  }
 
-  return {
-    timeArray,
-    iArray,
-    sArray
-  };
-};
+  processSIRData(chunkLength) {
+    const timeArray = map(this.SIRData, 'time');
+    const iArray = map(this.SIRData, 'I');
+    const sArray = map(this.SIRData, 'S');
 
-export const processTableData = () => {
-  const jsonContent = JSON.parse(
-    readFileSync(join(homedir(), 'health', 'chart-res', 'outbed.json'))
-  ).slice(0, 60);
+    const chunkedTimeArray = chunk(timeArray, chunkLength);
+    const chunkedIArray = chunk(iArray, chunkLength);
+    const chunkedSArray = chunk(sArray, chunkLength);
 
-  return jsonContent.map((val, index) => {
-    return [index + 1, val['df.I'], val['bed']];
-  });
-};
+    let iArrayAvg = [];
+    let sArrayAvg = [];
+    for (let i = 0; i < chunkedIArray.length; i++) {
+      let iArraySum = 0;
+      let sArraySum = 0;
+      for (let t = 0; t < chunkedIArray[i].length; t++) {
+        iArraySum += parseInt(chunkedIArray[i][t], 10);
+        sArraySum += parseInt(chunkedSArray[i][t], 10);
+      }
+
+      iArrayAvg.push(iArraySum / chunkedIArray[i].length);
+      sArrayAvg.push(sArraySum / chunkedIArray[i].length);
+    }
+
+    let SheatMapObj = [];
+    let IheatMapObj = [];
+    for (let i = 0; i < chunkedTimeArray.length; i++) {
+      SheatMapObj.push({
+        x: `${chunkedTimeArray[i][0]} - ${
+          chunkedTimeArray[i][chunkLength - 1]
+        }`,
+        y: sArrayAvg[i]
+      });
+      IheatMapObj.push({
+        x: `${chunkedTimeArray[i][0]} - ${
+          chunkedTimeArray[i][chunkLength - 1]
+        }`,
+        y: iArrayAvg[i]
+      });
+    }
+
+    return {
+      timeArray,
+      iArray,
+      sArray,
+      heatMap: {
+        data: {
+          iArrayAvg,
+          sArrayAvg
+        },
+        SheatMapObj,
+        IheatMapObj
+      }
+    };
+  }
+
+  processBedData() {
+    return this.bedData.map((val, index) => {
+      return [index + 1, val['df.I'], val['bed']];
+    });
+  }
+}
+
+export { DataLoader };

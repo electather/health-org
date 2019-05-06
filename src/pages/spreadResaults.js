@@ -1,6 +1,6 @@
 import createWindow from '../helpers/window';
 import url from 'url';
-import { processData, processTableData } from '../helpers/loadData';
+import { DataLoader } from '../helpers/loadData';
 import path from 'path';
 import env from 'env';
 
@@ -24,8 +24,9 @@ const createSpreadResultsWindow = () => {
 
   resWindow.once('ready-to-show', () => {
     resWindow.show();
-    resWindow.webContents.send('chartData:send', processData());
-    resWindow.webContents.send('tableData:send', processTableData());
+    const dataLoader = new DataLoader(30);
+    resWindow.webContents.send('chartData:send', dataLoader.processSIRData(5));
+    resWindow.webContents.send('tableData:send', dataLoader.processBedData());
   });
   if (env.name === 'development') {
     resWindow.openDevTools();

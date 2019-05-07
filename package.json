@@ -33,6 +33,7 @@
     "apexcharts": "^3.6.10",
     "chart.js": "^2.8.0",
     "fs-jetpack": "^2.1.0",
+    "jquery-depends-on": "^1.5.1",
     "lodash": "^4.17.11"
   },
   "devDependencies": {

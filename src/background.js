@@ -1,19 +1,12 @@
-// This is main process of Electron, started as first thing when your
-// app starts. It runs through entire life of your application.
-// It doesn't have any windows which you can see on screen, but we can open
-// window from here.
-
+import { app, ipcMain, Menu } from 'electron';
+import env from 'env';
 import path from 'path';
 import url from 'url';
-import { app, Menu } from 'electron';
+import { Loader } from './helpers/fileLoader';
+import createWindow from './helpers/window';
 import { devMenuTemplate } from './menu/dev_menu_template';
 import { editMenuTemplate } from './menu/edit_menu_template';
-import createWindow from './helpers/window';
-
-// Special module holding environment variables which you declared
-// in config/env_xxx.json file.
-import env from 'env';
-import { createSpreadResultsWindow } from './pages/spreadResaults';
+import { Bridge } from './helpers/bridge';
 
 const setApplicationMenu = () => {
   const menus = editMenuTemplate;
@@ -23,9 +16,6 @@ const setApplicationMenu = () => {
   Menu.setApplicationMenu(Menu.buildFromTemplate(menus));
 };
 
-// Save userData in separate folders for each environment.
-// Thanks to this you can use production and development versions of the app
-// on same machine like those are two separate apps.
 if (env.name !== 'production') {
   const userDataPath = app.getPath('userData');
   app.setPath('userData', `${userDataPath} (${env.name})`);
@@ -34,7 +24,7 @@ if (env.name !== 'production') {
 app.on('ready', () => {
   setApplicationMenu();
 
-  const mainWindow = createWindow('main', {
+  const mainWindow = createWindow('mainWin', {
     width: 2000,
     height: 1500
   });
@@ -47,11 +37,16 @@ app.on('ready', () => {
     })
   );
 
-  const spread = createSpreadResultsWindow();
-
   if (env.name === 'development') {
     mainWindow.openDevTools();
   }
+});
+
+ipcMain.on('infectionData:send', (event, data) => {
+  const json = JSON.stringify(data);
+  Loader.saveInputAsJson(json);
+  const bridge = new Bridge();
+  bridge.processInfectionSpread(json);
 });
 
 app.on('window-all-closed', () => {

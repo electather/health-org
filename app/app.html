@@ -51,7 +51,10 @@
                 role="tablist"
               >
                 <li class="nav-item">
-                  <a class="nav-link active" href="#btabs-static-home"
+                  <a
+                    class="nav-link active"
+                    href="#btabs-static-home"
+                    id="second-tab"
                     >اطلاعات بیماری</a
                   >
                 </li>
@@ -72,15 +75,17 @@
                   id="btabs-static-home"
                   role="tabpanel"
                 >
-                  <form>
+                  <form id="spread-cal-form">
                     <div class="form-group">
-                      <label for="city-name">نام شهر</label>
+                      <label for="city-name"
+                        >نام شهر <span class="text-danger">*</span></label
+                      >
                       <select
                         class="form-control"
                         id="city-name"
-                        name="example-select"
+                        name="city-name"
                       >
-                        <option value="0">لطفا انتخاب کنید</option>
+                        <option value="">لطفا انتخاب کنید</option>
                         <option value="1">تهران</option>
                         <option value="2">اصفهان</option>
                         <option value="3">تبریز</option>
@@ -88,13 +93,15 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="city-name">نام بیماری</label>
+                      <label for="infection-name"
+                        >نام بیماری <span class="text-danger">*</span></label
+                      >
                       <select
                         class="form-control"
-                        id="city-name"
-                        name="example-select"
+                        id="infection-name"
+                        name="infection-name"
                       >
-                        <option value="0">لطفا انتخاب کنید</option>
+                        <option value="">لطفا انتخاب کنید</option>
                         <option value="1">آنفولانزا</option>
                         <option value="2">سارس</option>
                         <option value="3">سایر</option>
@@ -102,7 +109,10 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="healing-rate">نرخ افراد بهبود یافته</label>
+                      <label for="healing-rate"
+                        >نرخ افراد بهبود یافته
+                        <span class="text-danger">*</span></label
+                      >
                       <input
                         type="number"
                         class="form-control"
@@ -112,7 +122,10 @@
                       />
                     </div>
                     <div class="form-group">
-                      <label for="infection-rate">نرخ آلودگی بیمار</label>
+                      <label for="infection-rate"
+                        >نرخ آلودگی بیمار
+                        <span class="text-danger">*</span></label
+                      >
                       <input
                         type="number"
                         class="form-control"
@@ -123,7 +136,10 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="infected-population">جمعیت افراد آلوده</label>
+                      <label for="infected-population"
+                        >جمعیت افراد آلوده
+                        <span class="text-danger">*</span></label
+                      >
                       <input
                         type="number"
                         class="form-control"
@@ -134,7 +150,10 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="sim-time">مدت زمان شبیه سازی</label>
+                      <label for="sim-time"
+                        >مدت زمان شبیه سازی
+                        <span class="text-danger">*</span></label
+                      >
                       <input
                         type="number"
                         class="form-control"
@@ -207,9 +226,15 @@
     </script>
 
     <script src="static/oneui.core.min.js"></script>
-
-    <script src="app.js"></script>
     <script src="static/oneui.app.min.js"></script>
+    <script src="static/js/validation/jquery.validate.min.js"></script>
+    <script src="static/js/validation/additional-methods.min.js"></script>
+    <script src="static/js/depends-on/dependsOn.min.js"></script>
+
+    <script src="validation.js"></script>
+    <script src="spread.js"></script>
+    <script src="app.js"></script>
+
     <script>
       if (window.module) module = window.module;
     </script>

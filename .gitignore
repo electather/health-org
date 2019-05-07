@@ -10,4 +10,6 @@ Thumbs.db
 /app/app.js
 /app/chart.js
 /app/background.js
+/app/validation.js
+/app/spread.js
 /app/**/*.map

@@ -1,17 +1,17 @@
 import { ipcRenderer } from 'electron';
 
-$('#infection-rate').dependsOn({
+$('#infection_rate').dependsOn({
   // The selector for the depenency
-  '#infection-name': {
+  '#infection_name': {
     // The dependency qualifiers
     not: [''],
     contains: ['3']
   }
 });
 
-$('#healing-rate').dependsOn({
+$('#healing_rate').dependsOn({
   // The selector for the depenency
-  '#infection-name': {
+  '#infection_name': {
     // The dependency qualifiers
     not: [''],
     contains: ['3']

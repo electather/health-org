@@ -1,13 +1,14 @@
 import fs from 'fs';
-import { homedir } from 'os';
 import path from 'path';
 import { dialog } from 'electron';
 
 class FileLoader {
   constructor() {
-    this.saveDir = path.join(homedir(), 'health');
+    this.saveDir = 'D:\\health\\';
     this.inputDir = path.join(this.saveDir, 'inputDir');
     this.outputDir = path.join(this.saveDir, 'outputDir');
+    this.rExec = path.join(this.saveDir, 'SIR_final.R');
+
     if (!fs.existsSync(this.saveDir)) {
       fs.mkdirSync(this.saveDir);
     }
@@ -32,6 +33,18 @@ class FileLoader {
           );
         }
       }
+    );
+  }
+
+  getChartOutputObj() {
+    return JSON.parse(
+      fs.readFileSync(path.join(this.outputDir, 'outsir.json'))
+    );
+  }
+
+  getTableOutputObj() {
+    return JSON.parse(
+      fs.readFileSync(path.join(this.outputDir, 'outbed.json'))
     );
   }
 }

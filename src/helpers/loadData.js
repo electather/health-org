@@ -1,17 +1,12 @@
-const { readFileSync } = require('fs');
-const { join } = require('path');
-const { homedir } = require('os');
+import { Loader } from './fileLoader';
+
 const { map, chunk } = require('lodash');
 
 class DataLoader {
   constructor(dataLength) {
-    this.SIRData = JSON.parse(
-      readFileSync(join(homedir(), 'health', 'chart-res', 'outsir.json'))
-    ).slice(0, dataLength);
+    this.SIRData = Loader.getChartOutputObj().slice(0, dataLength);
 
-    this.bedData = JSON.parse(
-      readFileSync(join(homedir(), 'health', 'chart-res', 'outbed.json'))
-    ).slice(0, dataLength);
+    this.bedData = Loader.getTableOutputObj().slice(0, dataLength);
   }
 
   processSIRData(chunkLength) {

@@ -2,7 +2,6 @@ import { app, ipcMain, Menu } from 'electron';
 import env from 'env';
 import path from 'path';
 import url from 'url';
-import { Loader } from './helpers/fileLoader';
 import createWindow from './helpers/window';
 import { devMenuTemplate } from './menu/dev_menu_template';
 import { editMenuTemplate } from './menu/edit_menu_template';
@@ -24,10 +23,12 @@ if (env.name !== 'production') {
 app.on('ready', () => {
   setApplicationMenu();
 
-  const mainWindow = createWindow('mainWin', {
+  const mainWindow = createWindow('bg', {
     width: 2000,
     height: 1500
   });
+
+  mainWindow.center();
 
   mainWindow.loadURL(
     url.format({
@@ -43,8 +44,11 @@ app.on('ready', () => {
 });
 
 ipcMain.on('infectionData:send', (event, data) => {
+  data['healing_rate'] = !!data['healing_rate'] ? data['healing_rate'] : 0.3;
+  data['infection_rate'] = !!data['infection_rate']
+    ? data['infection_rate']
+    : 0.1;
   const json = JSON.stringify(data);
-  Loader.saveInputAsJson(json);
   const bridge = new Bridge();
   bridge.processInfectionSpread(json);
 });

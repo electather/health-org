@@ -2,7 +2,7 @@
   "name": "health-org",
   "productName": "health-org",
   "description": "health organization UI built with electron",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "author": "Omid Astaraki <omid.ocean@gmail.com>",
   "copyright": "© 2019",

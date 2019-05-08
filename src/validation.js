@@ -5,32 +5,32 @@ class pageFormsValidation {
     jQuery('#spread-cal-form').validate({
       ignore: [],
       rules: {
-        'city-name': {
+        city_name: {
           required: true
         },
-        'infection-name': {
+        infection_name: {
           required: true
         },
-        'healing-rate': {
+        healing_rate: {
           required: true
         },
-        'infection-rate': {
+        infection_rate: {
           required: true
         },
-        'infected-population': {
+        infected_population: {
           required: true
         },
-        'sim-time': {
+        sim_time: {
           required: true
         }
       },
       messages: {
-        'city-name': 'لطفا یک شهر را انتخاب نمایید!',
-        'infection-name': 'لطفا یک بیماری را انتخاب نمایید!',
-        'healing-rate': 'لطفا یک مقدار وارد نمایید!',
-        'infection-rate': 'لطفا یک مقدار وارد نمایید!',
-        'infected-population': 'لطفا یک مقدار وارد نمایید!',
-        'sim-time': 'لطفا یک مقدار وارد نمایید!'
+        city_name: 'لطفا یک شهر را انتخاب نمایید!',
+        infection_name: 'لطفا یک بیماری را انتخاب نمایید!',
+        healing_rate: 'لطفا یک مقدار وارد نمایید!',
+        infection_rate: 'لطفا یک مقدار وارد نمایید!',
+        infected_population: 'لطفا یک مقدار وارد نمایید!',
+        sim_time: 'لطفا یک مقدار وارد نمایید!'
       }
     });
   }

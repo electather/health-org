@@ -1,5 +1,5 @@
 export const rScript = pathObj => {
-  return `require(jsonlite)\n\\nnodes <- read.csv("${pathObj.populationPath.replace(
+  return `require(jsonlite)\nnodes <- read.csv("${pathObj.populationPath.replace(
     /\\/g,
     '/'
   )}", header=T, as.is=T)\nlinks <- read.csv("${pathObj.networkPath.replace(
